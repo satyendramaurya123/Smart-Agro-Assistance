@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Agro Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <style>
+    /* General Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4fff4;
+      color: #2b4a2e;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #27632a;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #4caf50;
+      font-size: 1.5rem;
+    }
+
+    section {
+      background-color: #fff;
+      border: 1px solid #cdeccd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 30px auto;
+      max-width: 800px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    input, select, button, label {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border-radius: 5px;
+    }
+
+    #imageInput, #diseaseImageInput {
+      display: none;
+    }
+
+    #cameraLabel {
+      display: inline-block;
+      background-color: #eee;
+      padding: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: 10px auto;
+      text-align: center;
+    }
+
+    #cameraLabel:hover {
+      background-color: #ddd;
+    }
+
+    .quote, .environment-story {
+      text-align: center;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #4caf50;
+      margin-top: 30px;
+    }
+
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .image-container {
+      width: 45%;
+      text-align: center;
+    }
+
+    .image-container img {
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: #27632a;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    #plantResult, #diseaseResult {
+      margin-top: 10px;
+      font-size: 1rem;
+      background: #eefaf0;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    @media (min-width: 600px) {
+      input, button {
+        max-width: 48%;
+        display: inline-block;
+        margin: 10px 1%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Smart Agro Assistant</h1>
+
+  <!-- Plant Identifier Section -->
+  <section>
+    <h2>1. Identify Plant / Crop</h2>
+    <label for="imageInput" id="cameraLabel">
+      <i class="fas fa-camera"></i> Capture Image
+    </label>
+    <input type="file" id="imageInput" accept="image/*" capture="environment">
+    <img id="preview" alt="Preview" hidden>
+    <button onclick="identifyPlant()">Identify</button>
+    <div id="plantResult"></div>
+  </section>
+
+  <!-- Disease Detector Section -->
+  <section>
+    <h2>2. Detect Disease / Insects</h2>
+    <label for="diseaseImageInput" id="cameraLabel">
+      <i class="fas fa-camera"></i> Capture Image
+    </label>
+    <input type="file" id="diseaseImageInput" accept="image/*" capture="environment">
+    <img id="diseasePreview" alt="Preview" hidden>
+    <button onclick="detectDisease()">Detect</button>
+    <div id="diseaseResult"></div>
+  </section>
+
+  <!-- Inspirational Quotes -->
+  <div class="quote">"The creation of a thousand forests is in one acorn."</div>
+  <div class="quote">"The Earth is what we all have in common."</div>
+  <div class="quote">"The greatest threat to our planet is the belief that someone else will save it."</div>
+
+  <!-- Environment Awareness -->
+  <div class="environment-story">
+    "Trees provide shelter, purify the air, and stabilize the soil. They are the lungs of the Earth, giving life to the entire ecosystem."
+  </div>
+  <!-- Image Gallery -->
+  <div class="image-gallery">
+    <div class="image-container">
+      <img src="indian-farmer-13742580.webp" alt="Farmer">
+      <div class="quote">"Farmers are the backbone of our society."</div>
+    </div>
+    <div class="image-container">
+      <img src="India_Farming.jpg" alt="Farming">
+      <div class="quote">"Agriculture is the most healthful, useful, and noble employment." – George Washington</div>
+    </div>
+    <div class="image-container">
+      <img src="tractor.jpg" alt="Tractor">
+      <div class="quote">"Technology in farming drives progress and sustainability."</div>
+    </div>
+    <div class="image-container">
+      <img src="blog-fruit-tree-benefits.jpg" alt="Tree">
+      <div class="quote">"A tree is a symbol of life and resilience."</div>
+    </div>
+    <div class="image-container">
+      <img src="insects.jpg" alt="Insects">
+      <div class="quote">"Tiny insects play a big role in our ecosystem."</div>
+    </div>
+    <div class="image-container">
+      <img src="Close-up-shot-of-a-Green-Nettle-Weevil-insect-perched-on-a-leafy-plant-in-its-natural-habitat-Green-weevil-Compsus-benoisti.webp" alt="Weevil">
+      <div class="quote">"Even the smallest creatures are crucial to the balance of nature."</div>
+    </div>
+  </div
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Smart Agro Assistant. All Rights Reserved.</p>
+    <p>Visit our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a></p>
+    <p>Created by Satyendra Maurya</p>
+  </footer>
+
+  <script>
+    const PLANT_ID_API_KEY = 'IcP2DcbJWdM0LskIVehFiJVgq2E6bZAZzZyWPUrhB5rpleuWd5';
+
+    const previewImage = (inputId, previewId) => {
+      const input = document.getElementById(inputId);
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const preview = document.getElementById(previewId);
+        preview.src = reader.result;
+        preview.hidden = false;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    document.getElementById("imageInput").addEventListener("change", () => previewImage("imageInput", "preview"));
+    document.getElementById("diseaseImageInput").addEventListener("change", () => previewImage("diseaseImageInput", "diseasePreview"));
+
+    async function identifyPlant() {
+      const input = document.getElementById("imageInput");
+      const file = input.files[0];
+      if (!file) return alert("Please upload or capture a plant image.");
+
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result.split(',')[1];
+        const res = await fetch("https://api.plant.id/v2/identify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Api-Key": PLANT_ID_API_KEY
+          },
+          body: JSON.stringify({
+            images: [base64Image],
+            organs: ["leaf"],
+            details: ["common_names", "disease", "description"]
+          })
+        });
+        const result = await res.json();
+        let display = '';
+        if (result?.suggestions?.length > 0) {
+          const s = result.suggestions[0];
+          const plantName = s.plant_name;
+          const formattedPlantName = plantName.replace(/ /g, "_");  // Format name for URL (e.g., Oryza_sativa)
+
+          // Create a clickable link to Wikipedia
+          display += `🌿 <strong>Plant scientific Name:</strong> <a href="https://en.wikipedia.org/wiki/${formattedPlantName}" target="_blank">${plantName}</a> - <em>Click to learn more</em><br>`;
+          display += `⚠️ <strong>Diseases:</strong> ${s.plant_details?.disease?.map(d => d.name).join(', ') || 'None'}<br>`;
+        } else {
+          display = "❌ Could not identify the plant.";
+        }
+        document.getElementById("plantResult").innerHTML = display;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function detectDisease() {
+      const input = document.getElementById("diseaseImageInput");
+      const file = input.files[0];
+      if (!file) return alert("Please upload a disease/insect image.");
+
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result.split(',')[1];
+        const res = await fetch("https://api.plant.id/v2/identify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Api-Key": PLANT_ID_API_KEY
+          },
+          body: JSON.stringify({
+            images: [base64Image],
+            organs: ["leaf", "stem"],
+            details: ["disease", "insects", "common_names"]
+          })
+        });
+        const result = await res.json();
+        let display = '';
+        if (result?.suggestions?.length > 0) {
+          const s = result.suggestions[0];
+          display += `🌿 <strong> Name:</strong> ${s.plant_name}<br>`;
+          display += `⚠️ <strong>Diseases:</strong> ${s.plant_details?.disease?.map(d => d.name).join(', ') || 'None'}<br>`;
+          display += `🐜 <strong>Insects:</strong> ${s.plant_details?.insects?.map(i => i.name).join(', ') || 'None'}<br>`;
+        } else {
+          display = "❌ Could not detect any disease or insects.";
+        }
+        document.getElementById("diseaseResult").innerHTML = display;
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
